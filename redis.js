@@ -358,8 +358,13 @@ module.exports = function (RED) {
         if (parsed.auth) {
           options.password = parsed.auth.split(':')[1];
         }
+
+        if (parsed.protocol === 'rediss:') {
+          options.tls = {};
+        }
+
         if (parsed.pathname) {
-          if (parsed.protocol === 'redis:') {
+          if (parsed.protocol === 'redis:' || parsed.protocol === 'rediss:') {
             if (parsed.pathname.length > 1) {
               options.db = parsed.pathname.slice(1);
             }
